@@ -12,8 +12,10 @@ class LSH():
         self.hashes = [lambda(x): np.sum(np.dot(a, x) + b) % n_features for a, b in zip(a_hash, b_hash)]
         self.df = pd.DataFrame(columns=['minhash_{}'.format(i + 1) for i in range(n_minhash)])
 
-    def insert_document(self, v_doc):
-        if len(v_doc) != self.n_features:
+    def insert_document(self, s_doc):
+        v_doc = np.array([np.float(i) for i in filter(None,
+            s_doc.split(' '))])
+        if v_doc.size != self.n_features:
             raise ValueError("Expected size {}".format(self.n_features))
         index = len(self.df)
         values = [fn_hash(v_doc) for fn_hash in self.hashes]
