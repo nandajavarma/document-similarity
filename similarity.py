@@ -11,7 +11,7 @@ if __name__ == "__main__":
         print "Usage: python create_vector.py pdf1 [pdf2] [pdf3] .."
         sys.exit()
     lsh = LSH(300)
-    lsh.insert_document(vector_list[0][1])
-    lsh.insert_document(vector_list[0][1])
-    print lsh.df
+    lsh.insert_document(vector_list[0][0], vector_list[0][1])
+    lsh.insert_document(vector_list[0][0], vector_list[0][1])
+    print lsh.get_similarities()
     # return vector_list
