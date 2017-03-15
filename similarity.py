@@ -12,5 +12,6 @@ if __name__ == "__main__":
         sys.exit()
     lsh = LSH(300)
     [lsh.insert_document(title, vector) for (title, vector) in vector_list]
-    print lsh.get_similarities()
+    # print lsh.get_similarities()
+    print lsh.closest_match(vector_list[0][0])
     # return vector_list
