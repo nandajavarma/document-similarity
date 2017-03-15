@@ -7,7 +7,7 @@
 
 `python create_vector.py pdf1 pdf2`
 
-# To check the similarity of documenets
+# To check the similarity of documents
 
 `python similarity.py pdf1 pdf2 pdf3 [pdf4 pdf5 ...]`
 
