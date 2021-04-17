@@ -10,8 +10,8 @@ stopwords = ["", "(", ")", "a", "about", "an", "and", "are", "around", "as", "at
              "on", "or", "s", "she", "some", "that", "the", "their", "there", "this", "these", "those", "to", "under",
              "was", "were", "what", "when", "where", "which", "who", "will", "with", "you", "your"]
 
-
-def load_entropies(entropies_file='utils/ukwac.entropy.txt'):
+path = os.path.dirname(os.path.abspath(__file__))
+def load_entropies(entropies_file=path+'/utils/ukwac.entropy.txt'):
     entropies_dict = {}
     with open(entropies_file, "r") as entropies:
         for line in entropies:
@@ -42,7 +42,7 @@ def weight_file(buff):
 
 def read_dm():
     global dm_dict
-    path = os.path.dirname(os.path.abspath(__file__))
+
     with open(path+"/utils/wikiwoods.dm") as f:
         dmlines = f.readlines()
 
