@@ -15,6 +15,7 @@ class LSH():
         self.df = pd.DataFrame(columns=['title'] + ['minhash_{}'.format(i + 1) for i in range(n_minhash)])
 
     def insert_document(self, title, s_doc):
+
         v_doc = np.array([np.float(i) for i in filter(None,
             s_doc.split(' '))])
         if v_doc.size != self.n_features:
@@ -32,9 +33,12 @@ class LSH():
             title_actual = self.df.loc[actual_doc]['title']
             v_actual = self.df.loc[actual_doc][1:]
             result.loc[actual_doc] = [title_actual] + [np.sum(v_actual == self.df.loc[doc2][1:]) / self.n_minhash for doc2 in range(n_docs)]
+        with pd.ExcelWriter('output.xlsx') as writer:
+            result.to_excel(writer,sheet_name='sheet1')
         return result
 
     def closest_match(self, title):
+
         pd_df = self.get_similarities()
         return pd_df[pd_df['title'] == title]
 

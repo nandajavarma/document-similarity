@@ -2,13 +2,14 @@ from parse_document import extract_from_pdf
 import os, sys
 import numpy as np
 
-dm_dict={}
+dm_dict = {}
 num_dimensions = 300
 stopwords = ["", "(", ")", "a", "about", "an", "and", "are", "around", "as", "at", "away", "be", "become", "became",
              "been", "being", "by", "did", "do", "does", "during", "each", "for", "from", "get", "have", "has", "had",
              "he", "her", "his", "how", "i", "if", "in", "is", "it", "its", "made", "make", "many", "most", "not", "of",
              "on", "or", "s", "she", "some", "that", "the", "their", "there", "this", "these", "those", "to", "under",
              "was", "were", "what", "when", "where", "which", "who", "will", "with", "you", "your"]
+
 
 def load_entropies(entropies_file='utils/ukwac.entropy.txt'):
     entropies_dict = {}
@@ -20,6 +21,7 @@ def load_entropies(entropies_file='utils/ukwac.entropy.txt'):
             if word.isalpha() and word not in entropies_dict:
                 entropies_dict[word] = float(score)
     return entropies_dict
+
 
 def weight_file(buff):
     entropies_dict = load_entropies()
@@ -43,18 +45,20 @@ def read_dm():
     with open("utils/wikiwoods.dm") as f:
         dmlines = f.readlines()
 
-    #Make dictionary with key=row, value=vector
+    # Make dictionary with key=row, value=vector
     for l in dmlines:
         items = l.rstrip('\n').split('\t')
         word = items[0]
         vec = np.array([float(i) for i in items[1:]])
         dm_dict[word.split('_')[0]] = vec
 
+
 def normalise(v):
     norm = np.linalg.norm(v)
     if norm == 0:
         return v
     return v / norm
+
 
 def mk_vector(word_dict):
     """ Make vectors from weights """
@@ -64,36 +68,42 @@ def mk_vector(word_dict):
     if len(word_dict) > 0:
         c = 0
         for w in sorted(word_dict, key=word_dict.get, reverse=True):
-          if c < 10:
-              w_vector = dm_dict.get(w, empty_array)
-              if w_vector.any():
-                   vbase = vbase + float(word_dict[w]) * w_vector
-                   c += 1
+            if c < 10:
+                w_vector = dm_dict.get(w, empty_array)
+                if w_vector.any():
+                    vbase = vbase + float(word_dict[w]) * w_vector
+                    c += 1
 
         vbase = normalise(vbase)
 
     # Make string version of document distribution
     doc_dist_str = ""
     for n in vbase:
-      doc_dist_str = doc_dist_str + "%.6f" % n + " "
+        doc_dist_str = doc_dist_str + "%.6f" % n + " "
 
     return doc_dist_str
 
 
-def vectorize(pdf_list):
+def vectorize(pdf_list, pdf_name):
     read_dm()
     buff = ""
     line_counter = 0
-    title = pdf_list[0]
-    buff = pdf_list[1]
+    title = pdf_name.decode('utf-8').lower().replace('\\','')
+    title = title.split('/')[1]
+
+
+    buff = pdf_list[1].decode('utf-8')
+
     v = weight_file(buff)
     s = mk_vector(v)
+
     return (title, s)
+
 
 if __name__ == "__main__":
     pdfs = sys.argv[1:]
     if pdfs:
-        vector_list = [vectorize(extract_from_pdf(pdf)) for pdf in pdfs]
+        vector_list = [vectorize(pdf_list=extract_from_pdf(pdf), pdf_name=pdf) for pdf in pdfs]
         print vector_list
     else:
         print "Usage: python create_vector.py pdf1 [pdf2] [pdf3] .."
