@@ -8,7 +8,7 @@ import os
 def getListOfFiles(dirName):
     # create a list of file and sub directories
     # names in the given directory
-
+    dirName = dirName.decode('utf-8')
     listOfFile = os.listdir(dirName)
     allFiles = list()
     # Iterate over all the entries
@@ -21,7 +21,7 @@ def getListOfFiles(dirName):
         else:
             if fullPath.endswith('.pdf'):
 
-                allFiles.append(fullPath)
+                allFiles.append(fullPath.decode('utf-8'))
 
     return allFiles
 
