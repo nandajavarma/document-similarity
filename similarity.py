@@ -12,8 +12,6 @@ if __name__ == "__main__":
         pdfs = []
         for path in base_path:
             pdfs += getListOfFiles(path)
-        for i in pdfs:
-            print i
         if pdfs:
             vector_list = [vectorize(extract_from_pdf(pdf), pdf) for pdf in pdfs]
     else:
