@@ -3,9 +3,14 @@ from lsh import LSH
 from parse_document import extract_from_pdf
 import sys
 
+from search_all_files import getListOfFiles
+
 if __name__ == "__main__":
-    pdfs = sys.argv[1:]
-    if pdfs:
+
+    base_path = sys.argv[1:]
+    print base_path
+    if base_path :
+        pdfs = [getListOfFiles(path) for path in base_path]
         vector_list = [vectorize(extract_from_pdf(pdf),pdf) for pdf in pdfs]
     else:
         print "Usage: python create_vector.py pdf1 [pdf2] [pdf3] .."
