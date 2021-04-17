@@ -8,7 +8,7 @@ import os
 def getListOfFiles(dirName):
     # create a list of file and sub directories
     # names in the given directory
-    dirName = dirName.decode('utf-8')
+    dirName = dirName
     listOfFile = os.listdir(dirName)
     allFiles = list()
     # Iterate over all the entries

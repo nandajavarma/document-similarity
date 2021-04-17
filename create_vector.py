@@ -89,7 +89,7 @@ def vectorize(pdf_list, pdf_name):
     buff = ""
     line_counter = 0
     print pdf_name
-    title = pdf_name.decode('utf-8').lower().replace('\\','')
+    title = pdf_name.encode('utf-8').lower()
     title = title.split('/')[-1]
 
 
