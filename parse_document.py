@@ -34,7 +34,9 @@ def convert(pdf_file, pages=None):
 
 
 def extract_from_pdf(pdf_file):
+
     drows = tuple()
+
     body = convert(pdf_file)
 
     body = body.strip()
