@@ -20,7 +20,6 @@ def getListOfFiles(dirName):
             allFiles = allFiles + getListOfFiles(fullPath)
         else:
             if fullPath.endswith('.pdf'):
-
                 allFiles.append(fullPath.decode('utf-8'))
 
     return allFiles

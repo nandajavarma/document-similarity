@@ -42,7 +42,8 @@ def weight_file(buff):
 
 def read_dm():
     global dm_dict
-    with open("utils/wikiwoods.dm") as f:
+    path = os.path.dirname(os.path.abspath(__file__))
+    with open(path+"/utils/wikiwoods.dm") as f:
         dmlines = f.readlines()
 
     # Make dictionary with key=row, value=vector
@@ -90,7 +91,7 @@ def vectorize(pdf_list, pdf_name):
     line_counter = 0
     print pdf_name
     title = pdf_name.encode('utf-8').lower()
-    title = title.split('/')[-1]
+    title = title.split('/')[-2]+'-'+title.split('/')[-1]
 
 
     buff = pdf_list[1].decode('utf-8')
